@@ -167,6 +167,9 @@ EOF
         ;;
     ol)
         echo "Detected Oracle Linux"
+
+        /usr/libexec/oci-growfs
+
         if command -v oke >/dev/null 2>&1; then
             echo "[Oracle Linux] oke binary already present, running bootstrap only"
             
