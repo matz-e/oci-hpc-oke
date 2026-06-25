@@ -26,6 +26,12 @@ var shapeConfig = map[string]struct {
 	MTU          int
 }{
 	// ConnectX-5 shapes (16 NICs, enp* naming, MTU 4220)
+	"BM.Optimized3.36": {
+		PCIAddresses: []string{
+			"0000:98:00.0",
+		},
+		MTU: 4220,
+	},
 	"BM.GPU4.8": {
 		PCIAddresses: []string{
 			"0000:0c:00.0", "0000:0c:00.1", "0000:16:00.0", "0000:16:00.1",
@@ -242,7 +248,9 @@ func discoverRDMAInterfaces() []string {
 	}
 	for _, entry := range entries {
 		name := entry.Name()
-		if strings.HasPrefix(name, "rdma") && !strings.Contains(name, "v") {
+		log("Triaging '%s'", name)
+		if (strings.HasPrefix(name, "rdma") && !strings.Contains(name, "v")) || strings.Contains(name, "ens800f0np0") {
+			log("Discovered '%s'", name)
 			interfaces = append(interfaces, name)
 		}
 	}
